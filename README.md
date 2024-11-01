@@ -4,6 +4,10 @@ A project under winter of code DevlUp Labs, for finding like minded individuals 
 
 Made with Flutter, Firebase & ❣️
 
+By:
+
+[Anadi Sharma](https://github.com/Asharma538), [Lakshya Jain](https://github.com/lakshyajain-0291), [Divya Kumar](https://github.com/3123divyakumar), [Arun Kumar](https://github.com/ArunCStop), [Radhika Agarwal](https://github.com/radhika101205)
+
 Screenshots of the App
 
 <img src="https://github.com/Asharma538/travel_companion/assets/102324067/66bc65f2-9eb8-4048-a2f7-7a8d72755c99" width="300">
