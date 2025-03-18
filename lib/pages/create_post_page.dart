@@ -112,9 +112,9 @@ class _CreatePostPageState extends State<CreatePostPage> {
       }
       selectedTime = widget.initialPost!['time'] == ""
           ? null
-          : TimeOfDay(
-              hour: int.parse(widget.initialPost!['time'].split(':')[0]),
-              minute: int.parse(widget.initialPost!['time'].split(':')[1]),
+            : TimeOfDay(
+              hour: int.parse(widget.initialPost!['time'].substring(0, 2)),
+              minute: int.parse(widget.initialPost!['time'].substring(3, 5)),
             );
       setState(() {});
     }
@@ -336,7 +336,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
             selectedDate != null && label == "DATE"
                 ? selectedDate.toString().substring(0, 10)
                 : selectedTime != null && label == "TIME"
-                    ? "${selectedTime!.hour}:${selectedTime!.minute}"
+                    ? "${selectedTime!.hour.toString().padLeft(2, '0')}:${selectedTime!.minute.toString().padLeft(2, '0')}"
                     : label,
             style: const TextStyle(
               color: Colors.white,
@@ -359,7 +359,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
     String userEmail = Profile.userData['id'];
     String formattedDate = selectedDate != null ? selectedDate.toString().substring(0, 10) : "";
     String formattedTime = selectedTime != null
-        ? "${selectedTime!.hour}:${selectedTime!.minute}"
+        ? "${selectedTime!.hour.toString().padLeft(2, '0')}:${selectedTime!.minute.toString().padLeft(2, '0')}"
         : "";
 
     Trip newTrip = Trip(
