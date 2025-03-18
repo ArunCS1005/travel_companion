@@ -154,7 +154,7 @@ class _SearchPageState extends State<SearchPage> {
                     padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
                     child: Text(
                       selectedTime != null
-                          ? "${selectedTime!.hour}:${selectedTime!.minute}"
+                            ? "${selectedTime!.hour.toString().padLeft(2, '0')}:${selectedTime!.minute.toString().padLeft(2, '0')}"
                           : "TIME",
                       style: const TextStyle(
                         color: secondaryTextColor,

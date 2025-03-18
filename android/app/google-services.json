@@ -14,6 +14,30 @@
       },
       "oauth_client": [
         {
+          "client_id": "332213306586-0c09dfkhnr9gctau3fngi4k049mup9l3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.devluplabs.travel_companiion",
+            "certificate_hash": "f9dbdc3f99f69f4e8174a06270703a460360d14c"
+          }
+        },
+        {
+          "client_id": "332213306586-7tcj4bshq4n07tgkrtgv6uvp6tftsov2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.devluplabs.travel_companiion",
+            "certificate_hash": "4bae9980cd1e0e05d96b090c5c4e3b84a465f1e1"
+          }
+        },
+        {
+          "client_id": "332213306586-9h0eee0nb0mdm7hvgkep46k66lc0oc73.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.devluplabs.travel_companiion",
+            "certificate_hash": "8f4f2cf09af2a36bff054b49b5b1bccbc5035671"
+          }
+        },
+        {
           "client_id": "332213306586-at2c4ukioss455vpn350fnp2lm6bf24o.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
