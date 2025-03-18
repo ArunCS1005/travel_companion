@@ -35,7 +35,7 @@ class _SignInPageState extends State<SignInPage> {
         'username': user?.displayName,
         "email": user?.email,
         'profilePhotoState': 0,
-        'about': "Add your about here"
+        'about': "",
       });
 
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SplashScreen()));
