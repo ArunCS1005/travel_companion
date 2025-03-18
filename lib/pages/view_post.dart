@@ -24,26 +24,21 @@ class _ViewPostState extends State<ViewPost> {
   var sentByUsername = Profile.userData['username'];
   var sentByPhoneNumber = Profile.phoneNumber;
 
-  showNormalSnackBar(BuildContext context,String snackBarText) {
-    ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            dismissDirection: DismissDirection.horizontal,
-            margin: const EdgeInsets.all(5),
-            behavior: SnackBarBehavior.floating,
-            content: Text(snackBarText)
-        )
-    );
+  showNormalSnackBar(BuildContext context, String snackBarText) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        dismissDirection: DismissDirection.horizontal,
+        margin: const EdgeInsets.all(5),
+        behavior: SnackBarBehavior.floating,
+        content: Text(snackBarText)));
   }
-  showErrorSnackBar(BuildContext context,String snackBarText){
-    ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            dismissDirection: DismissDirection.horizontal,
-            margin: const EdgeInsets.all(5),
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: errorRed,
-            content: Text(snackBarText)
-        )
-    );
+
+  showErrorSnackBar(BuildContext context, String snackBarText) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        dismissDirection: DismissDirection.horizontal,
+        margin: const EdgeInsets.all(5),
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: errorRed,
+        content: Text(snackBarText)));
   }
 
   @override
@@ -57,12 +52,12 @@ class _ViewPostState extends State<ViewPost> {
   }
 
   void storeRequest() async {
-    try{
+    try {
       String? userEmail = FirebaseAuth.instance.currentUser!.email;
       var firestore = FirebaseFirestore.instance;
 
-      DocumentSnapshot<Map<String, dynamic>> myRequestSnapshot = await firestore.collection('Requests').doc(userEmail).get();
-
+      DocumentSnapshot<Map<String, dynamic>> myRequestSnapshot =
+          await firestore.collection('Requests').doc(userEmail).get();
 
       Map<String, dynamic> myRequestInfo = {
         'tripId': post['id'],
@@ -84,11 +79,14 @@ class _ViewPostState extends State<ViewPost> {
         'phoneNumber': sentByPhoneNumber
       };
 
-      if(myRequestSnapshot.exists) {
-        List<dynamic> myExistingRequests = myRequestSnapshot.data()?['requests'] ?? [];
-        for (var i = 0; i < myExistingRequests.length; i++) {//checking if the request exists
+      if (myRequestSnapshot.exists) {
+        List<dynamic> myExistingRequests =
+            myRequestSnapshot.data()?['requests'] ?? [];
+        for (var i = 0; i < myExistingRequests.length; i++) {
+          //checking if the request exists
           if (myExistingRequests[i]['tripId'] == myRequestInfo['tripId']) {
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Request already exists')));
+            ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Request already exists')));
             return;
           }
         }
@@ -101,7 +99,8 @@ class _ViewPostState extends State<ViewPost> {
 
         Navigator.of(context).pop();
         Navigator.of(context).pop();
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Request sent')));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('Request sent')));
       }
     } catch (e) {
       showErrorSnackBar(context, e.toString());
@@ -114,10 +113,11 @@ class _ViewPostState extends State<ViewPost> {
           .collection('Trips')
           .doc(widget.post['id'])
           .delete();
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Post Deleted')));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Post Deleted')));
       Navigator.pop(context, true);
     } catch (e) {
-      showErrorSnackBar(context,"Error deleting post: ${e.toString()}");
+      showErrorSnackBar(context, "Error deleting post: ${e.toString()}");
     }
   }
 
@@ -129,14 +129,20 @@ class _ViewPostState extends State<ViewPost> {
       appBar: AppBar(
         backgroundColor: secondaryColor,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back,color: secondaryTextColor,),
+          icon: const Icon(
+            Icons.arrow_back,
+            color: secondaryTextColor,
+          ),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
         title: const Text(
           "View Post",
-          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20,color: secondaryTextColor),
+          style: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 20,
+              color: secondaryTextColor),
         ),
       ),
       backgroundColor: primaryColor,
@@ -157,23 +163,23 @@ class _ViewPostState extends State<ViewPost> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if(post['profilePhotoState'] == 0)...[
+                if (post['profilePhotoState'] == 0) ...[
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ProfilePicture(
-                  name: post['username'],
-                  radius: 30,
-                  fontsize: 20,),
+                      name: post['username'],
+                      radius: 30,
+                      fontsize: 20,
+                    ),
                   )
-                ] else...[
+                ] else ...[
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CircleAvatar(
-                      radius: 30.0,
-                      backgroundImage: NetworkImage(Base
-                        .profilePictures[post['profilePhotoState'] - 1]),
-                      )
-                  )
+                      padding: const EdgeInsets.all(8.0),
+                      child: CircleAvatar(
+                        radius: 30.0,
+                        backgroundImage: NetworkImage(Base
+                            .profilePictures[post['profilePhotoState'] - 1]),
+                      ))
                 ],
                 const SizedBox(width: 10),
                 Column(
@@ -191,16 +197,19 @@ class _ViewPostState extends State<ViewPost> {
                       width: MediaQuery.of(context).size.width - 120,
                       child: Row(
                         children: [
-                          Flexible(
-                            child: Text(
-                              "About: ${post['about'] ?? 'Not available'}",
-                              style: const TextStyle(
-                                color: primaryTextColor,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
+                          if (post['about'] != null &&
+                              post['about'].isNotEmpty) ...[
+                            Flexible(
+                              child: Text(
+                                "About: ${post['about']}",
+                                style: const TextStyle(
+                                  color: primaryTextColor,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
-                          ),
+                          ],
                         ],
                       ),
                     ),
@@ -235,7 +244,6 @@ class _ViewPostState extends State<ViewPost> {
             Padding(
               padding: const EdgeInsets.fromLTRB(10, 0, 10, 2),
               child: Row(
-                
                 children: [
                   const Text(
                     "From:",
@@ -245,7 +253,9 @@ class _ViewPostState extends State<ViewPost> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(width: 20,),
+                  SizedBox(
+                    width: 20,
+                  ),
                   Text(
                     "${post['source'] ?? 'Not available'}",
                     style: const TextStyle(
@@ -257,7 +267,6 @@ class _ViewPostState extends State<ViewPost> {
                 ],
               ),
             ),
-            
             Padding(
               padding: const EdgeInsets.fromLTRB(10, 2, 10, 0),
               child: Row(
@@ -381,7 +390,9 @@ class _ViewPostState extends State<ViewPost> {
             Padding(
               padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
               child: Text(
-                post['desc'] != null ? "${post['desc']}" : "Description: Not Specified",
+                post['desc'] != null
+                    ? "${post['desc']}"
+                    : "Description: Not Specified",
                 style: const TextStyle(
                   color: primaryTextColor,
                   fontSize: 14,
@@ -394,7 +405,8 @@ class _ViewPostState extends State<ViewPost> {
               height: 10,
               color: primaryTextColor,
               thickness: 2,
-            ),const SizedBox(height: 12),
+            ),
+            const SizedBox(height: 12),
             const Text(
               "Companions",
               style: TextStyle(
@@ -404,7 +416,7 @@ class _ViewPostState extends State<ViewPost> {
               ),
             ),
             const SizedBox(height: 12),
-            for (var i=0;i<companion.length;i++) ...[
+            for (var i = 0; i < companion.length; i++) ...[
               Padding(
                 padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
                 child: Text(
@@ -422,33 +434,36 @@ class _ViewPostState extends State<ViewPost> {
               color: primaryTextColor,
               thickness: 2,
             ),
-            const SizedBox(height: 30,),
+            const SizedBox(
+              height: 30,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 if (!isOwnPost()) ...[
                   ElevatedButton(
-                      onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: const Text('Your Message:-'),
-                        content: TextField(
-                          controller: messageController,
-                          decoration: const InputDecoration(hintText: 'Enter your message'),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: const Text('Your Message:-'),
+                          content: TextField(
+                            controller: messageController,
+                            decoration: const InputDecoration(
+                                hintText: 'Enter your message'),
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () async {
+                                message = messageController.text;
+                                storeRequest();
+                              },
+                              child: const Text('Submit'),
+                            )
+                          ],
                         ),
-                        actions: [
-                          TextButton(
-                            onPressed: () async {
-                              message = messageController.text;
-                              storeRequest();
-                            },
-                            child: const Text('Submit'),
-                          )
-                        ],
-                      ),
-                    );
-                  },
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: complementaryColor,
                       shape: RoundedRectangleBorder(
@@ -498,7 +513,8 @@ class _ViewPostState extends State<ViewPost> {
                         context: context,
                         builder: (context) => AlertDialog(
                           title: const Text('Confirm Delete'),
-                          content: const Text('Are you sure you want to delete this post?'),
+                          content: const Text(
+                              'Are you sure you want to delete this post?'),
                           actions: [
                             TextButton(
                               onPressed: () {
